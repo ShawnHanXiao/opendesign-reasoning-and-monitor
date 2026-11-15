@@ -20,9 +20,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/badai147/opendesign-reasoning-and-monitor.git"
+    "url": "git+https://github.com/ShawnHanXiao/opendesign-reasoning-and-monitor.git"
   },
-  "homepage": "https://github.com/badai147/opendesign-reasoning-and-monitor#readme",
+  "homepage": "https://github.com/ShawnHanXiao/opendesign-reasoning-and-monitor#readme",
   "engines": {
     "node": "^22.19.0 || >=24.0.0"
   },
