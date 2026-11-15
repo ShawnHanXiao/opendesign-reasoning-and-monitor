@@ -63,10 +63,10 @@ replace, which would drop redacted secrets.
 ```
 
 Right side of the header row that carries the agent-preset chip, or nothing at
-all when the session is not on OpenDesign. Hover for the used/limit counts, the
-pay-as-you-go balance, the plan tier, the period end and the read time. Warning
-colour at 75%, error colour at 90%. The pill degrades as the window narrows, down
-to hiding itself.
+all when the session is not on OpenDesign. Hover for the percentages with the
+used/limit counts underneath, the pay-as-you-go balance, the plan tier, the
+period end and the read time. Warning colour at 75%, error colour at 90%. The
+pill degrades as the window narrows, down to hiding itself.
 
 The third slot is the billing period. It stays empty in practice: OpenDesign's
 control plane reports only the 5-hour and 7-day coding-plan windows, and the
@@ -75,6 +75,15 @@ it — every other OpenDesign plugin in the market hits the same wall. The card
 therefore says so instead of inventing a denominator by adding the rolling
 windows up, which would read as headroom nobody has. Usage is always
 **used/limit** — the direction the vendor's own console draws.
+
+The upstream request is tracked as
+[nexu-io/open-design#8837](https://github.com/nexu-io/open-design/issues/8837)
+(still open). The maintainers' answer is that the console already renders
+whatever windows the billing preflight returns, so a monthly row needs an
+entitlement and reset-semantics decision in the billing policy rather than a
+missing UI row. The day `codingPlan.windows` in `billing/preflight` carries a
+`durationSeconds: 2592000` entry, this plugin lights the third slot up with no
+change at all — the windows are read, never hard-coded.
 
 ### Where the numbers come from, and why you may need to connect an account
 

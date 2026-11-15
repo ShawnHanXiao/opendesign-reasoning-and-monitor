@@ -231,6 +231,14 @@ test('credit counts and timestamps render readably, and nothing renders as a gue
   assert.match(stamp, /^\d{2}-\d{2} \d{2}:\d{2}$/)
   assert.equal(__pure.timeText(null), '')
   assert.equal(__pure.timeText('not a date'), '')
+
+  // A period end is a date, and a yearly plan's is eleven months out: keeping
+  // only month and day would read as tomorrow.
+  const today = new Date('2026-11-15T12:00:00.000Z')
+  assert.equal(__pure.dateText('2026-11-20T00:00:00.000Z', today), '11-20')
+  assert.equal(__pure.dateText('2027-11-14T06:24:39.000Z', today), '2027-11-14')
+  assert.equal(__pure.dateText(null, today), '')
+  assert.equal(__pure.dateText('nope', today), '')
 })
 
 test('every dictionary template fills its placeholders', async () => {
