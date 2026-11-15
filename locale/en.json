@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenDesign reasoning and usage",
+    "description": "Fills in reasoning-effort levels for an OpenDesign custom model API and shows 5-hour, weekly and billing-period usage in the conversation header."
+  }
+}

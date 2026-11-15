@@ -1,0 +1,6 @@
+{
+  "meta": {
+    "title": "OpenDesign 思考深度与额度",
+    "description": "在自定义模型 API 里添加 OpenDesign 后自动补齐思考深度档位，并在会话右上角显示 5 小时 / 1 周 / 账期的已用百分比。"
+  }
+}
