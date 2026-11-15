@@ -191,29 +191,35 @@ test('a percentage is rounded for the pill, and an unusable one reads as a dash'
   assert.equal(__pure.percentText(undefined), '—')
 })
 
-test('the card row shows counts, and falls back to the period total without a monthly limit', async () => {
+test('the card row leads with the percentage and keeps the counts underneath', async () => {
   const client = await loadClient()
   const { __pure } = client
   const t = (key) => client.DICTS.zh[key] ?? key
-  const monthly = __pure.windowRow(t, 'monthly', { used: 640, limit: 1000, percent: 64 }, null)
-  assert.equal(monthly.value, '已用 640 / 1000')
+  const monthly = __pure.windowRow(t, 'monthly', { used: 640, limit: 1000, percent: 64 })
+  assert.equal(monthly.value, '64%')
+  assert.equal(monthly.detail, '已用 640 / 1000')
   assert.equal(monthly.level, null)
 
-  // No monthly window at all: the row carries the period total, with no
-  // percentage and no level, because there is no denominator to divide by.
-  const fallback = __pure.windowRow(t, 'monthly', null, 900)
-  assert.equal(fallback.value, '已用 900')
-  assert.equal(fallback.percent, undefined)
-  assert.equal(fallback.level, null)
+  // No monthly window at all: a dash, never a total dressed up as a share.
+  // The control plane reports only the 5-hour and 7-day windows, so this is
+  // the ordinary case for the third slot.
+  const missing = __pure.windowRow(t, 'monthly', null)
+  assert.equal(missing.value, '—')
+  assert.equal(missing.detail, undefined)
+  assert.equal(missing.percent, null)
+  assert.equal(missing.level, null)
 
-  // Nothing at all: a dash rather than a fabricated zero.
-  assert.equal(__pure.windowRow(t, 'monthly', null, null).value, '—')
+  // A window with counts but no readable limit reads as a plain total.
+  const noLimit = __pure.windowRow(t, 'fiveHour', { used: 7, limit: null, percent: null })
+  assert.equal(noLimit.value, '已用 7')
+  assert.equal(noLimit.percent, null)
 
-  // A window with counts but no readable limit reads as a total too.
-  assert.equal(__pure.windowRow(t, 'fiveHour', { used: 7, limit: null, percent: null }, null).value, '已用 7')
-
-  const weekly = __pure.windowRow(t, 'weekly', { used: 92, limit: 100, percent: 92 }, null)
+  const weekly = __pure.windowRow(t, 'weekly', { used: 92, limit: 100, percent: 92 })
+  assert.equal(weekly.value, '92%')
   assert.equal(weekly.level, 'error')
+
+  // Nothing usable anywhere still renders a dash rather than "NaN%".
+  assert.equal(__pure.windowRow(t, 'weekly', { used: null, limit: null, percent: NaN }).value, '已用 —')
 })
 
 test('credit counts and timestamps render readably, and nothing renders as a guess', async () => {

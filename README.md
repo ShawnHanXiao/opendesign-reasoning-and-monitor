@@ -59,18 +59,22 @@ replace, which would drop redacted secrets.
 ## The usage pill
 
 ```
-5h 12% · 1w 34% · 1m 61%
+5h 12% · 1w 34% · 1m —
 ```
 
 Right side of the header row that carries the agent-preset chip, or nothing at
-all when the session is not on OpenDesign. Hover for the counts, the wallet
-balance, the plan tier and the read time. Warning colour at 75%, error colour at
-90%. The pill degrades as the window narrows, down to hiding itself.
+all when the session is not on OpenDesign. Hover for the used/limit counts, the
+pay-as-you-go balance, the plan tier, the period end and the read time. Warning
+colour at 75%, error colour at 90%. The pill degrades as the window narrows, down
+to hiding itself.
 
-The third slot is the billing period. OpenDesign's control plane usually returns
-only the two rolling windows; when it returns no monthly maximum, the slot shows
-**the total used in the period** instead of inventing a denominator. Usage is
-always **used/limit** — the direction the vendor's own console draws.
+The third slot is the billing period. It stays empty in practice: OpenDesign's
+control plane reports only the 5-hour and 7-day coding-plan windows, and the
+monthly maximum exists only in the published plan table with no counter behind
+it — every other OpenDesign plugin in the market hits the same wall. The card
+therefore says so instead of inventing a denominator by adding the rolling
+windows up, which would read as headroom nobody has. Usage is always
+**used/limit** — the direction the vendor's own console draws.
 
 ### Where the numbers come from, and why you may need to connect an account
 
